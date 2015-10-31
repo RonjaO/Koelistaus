@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Erilliskokeet</title>
+        <meta charset="UTF-8" />
+    </head>
+
+    <body>
+        <h1>Erilliskokeet</h1>
+        <p>Tällä sivulla on listattuna tulevat erilliskokeet. Kurssikokeiden lista löytyy <a th:href="@{/kurssikokeet}">täältä</a>.</p>
+
+        <table>
+            <thead>
+                <tr> <th>Kurssi</th> <th>Aika</th> <th>Paikka</th><th>Tyyppi</th> <th>Kuulustelija</th> <th>Kommentit</th>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')"> <th>poista</th> </div>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${kokeet.empty}">
+                    <td colspan="6">Ei erilliskokeita</td>
+                </tr>
+                <tr th:each="koe : ${kokeet}">
+                    <td> <span th:text="${koe.kurssikoodi}">koodi</span> <span th:text="${koe.kurssinNimi}">nimi</span></td>
+                    <td><span th:text="${#dates.format(koe.aika, 'dd.MM.yyyy HH:mm')}">01.01.1900 00:00</span></td>
+                    <td><span th:text="${koe.paikka}">paikka</span></td>
+                    <td><span th:text="${koe.tyyppi}">tyyppi</span></td>
+                    <td><span th:text="${koe.kuulustelija}">kuulustelija</span> </td>
+                    <td><span th:text="${koe.kommentit}">kommentit</span></td>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')"> 
+                        <td> <form th:action="@{/erilliskokeet/{id}(id=${koe.id})}" th:method="delete"><input type="SUBMIT" value="Poista"/></form></td>
+                    </div>
+                </tr>
+            </tbody>
+        </table>
+
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <h2>Lisää erilliskoe</h2>
+            <form th:action="@{/erilliskokeet/post}" th:method="POST" th:object="${erilliskoe}">
+                <table>
+                    <tr> 
+                        <td>Kurssin nimi: </td> <td><input type="text" name="kurssinNimi"  /></td>
+                    </tr>
+                    <tr>
+                        <td>Kurssikoodi: </td> <td><input type="text" name="kurssikoodi"  /></td>
+                    </tr>
+                    <tr>
+                        <td>Aika (esim 01.01.2015 10:00): </td> <td><input type="text" name="aika" th:field="*{aika}" /> </td>
+                        <td th:if="${#fields.hasErrors('aika')}" th:errors="*{aika}">Aika Virheviesti</td>
+                    </tr>
+                    <tr>
+                        <td>Tyyppi: </td><td><input type="text" name="tyyppi" /></td>
+                    </tr>
+                    <tr>
+                        <td>Kuulustelija: </td><td><input type="text" name="kuulustelija"  /></td>
+                    </tr>
+                    <tr>
+                        <td>Paikka: </td><td><input type="text" name="paikka" /></td>
+                    </tr>
+                    <tr>
+                        <td>Kommentit: </td><td><input type="text" name="kommentit" /> </td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="tallenna" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <form th:action="@{/logout}"  method="POST"> <input type="submit" name="logout" value="Logout" /> </form>
+        </div>
+
+    </body>
+</html>
