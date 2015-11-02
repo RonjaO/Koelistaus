@@ -3,9 +3,45 @@
     <head>
         <title>Erilliskokeet</title>
         <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="../styles/styles.css" th:href="@{/styles/styles.css}" />
+        <style>
+          .taulukko {
+            border-collapse: collapse;
+          }
+          .taulukko td, .taulukko th {
+            border: 1px solid #666;
+          }
+          body {
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #efc;
+            margin-left: 4em;
+            margin-right: 20%;
+          }
+          h1 {
+            border-bottom: thin solid gray;
+          }
+
+          nav {
+            background-color: #99ffaa;
+          }
+          #kurssikokeet .kurssikokeet {
+            font-type: bolded;
+          }
+
+          #erilliskokeet .erilliskokeet; {
+            font-type: bolded;
+          }
+        </style>
     </head>
 
-    <body>
+    <body id="erilliskokeet">
+        <nav>
+            <a href="http://cs.helsinki.fi">TKT-laitoksen kotisivu</a>
+            <a href="http://www.cs.helsinki.fi/courses">Laitoksen kurssitarjonta</a>
+            <a class="kurssikokeet" th:href="@{/kurssikokeet}">Kurssikokeet</a>
+            <a class="erilliskokeet" th:href="@{/erilliskokeet}">Erilliskokeet</a>
+        </nav>
+
         <h1>Erilliskokeet</h1>
         <p>Tällä sivulla on listattuna tulevat erilliskokeet. Kurssikokeiden lista löytyy <a th:href="@{/kurssikokeet}">täältä</a>.</p>
 

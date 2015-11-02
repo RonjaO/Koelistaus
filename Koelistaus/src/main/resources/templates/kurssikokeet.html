@@ -3,17 +3,52 @@
     <head>
         <title>Kurssikokeet</title>
         <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+        <style>
+          .taulukko {
+            border-collapse: collapse;
+          }
+          .taulukko td, .taulukko th {
+            border: 1px solid #666;
+          }
+          body {
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #efc;
+            margin-left: 4em;
+            margin-right: 20%;
+          }
+          h1 {
+            border-bottom: thin solid gray;
+          }
+
+          nav {
+            background-color: #99ffaa;
+          }
+          #kurssikokeet .kurssikokeet {
+            font-type: bolded;
+          }
+
+          #erilliskokeet .erilliskokeet; {
+            font-type: bolded;
+          }
+        </style>
     </head>
 
-    <body>
+    <body id="kurssikokeet">
+        <nav>
+            <a href="http://cs.helsinki.fi">TKT-laitoksen kotisivu</a>
+            <a href="http://www.cs.helsinki.fi/courses">Laitoksen kurssitarjonta</a>
+            <a class="kurssikokeet" th:href="@{/kurssikokeet}">Kurssikokeet</a>
+            <a class="erilliskokeet" th:href="@{/erilliskokeet}">Erilliskokeet</a>
+        </nav>
         <h1>Kurssikokeet</h1>
         <p>Täällä näet tulevat kurssikokeet. Erilliskokeiden listan löydät <a th:href="@{/erilliskokeet}">täältä</a>.</p>
 
 
-        <table>
+        <table class="taulukko">
             <thead>
-                <tr> <th>Kurssi</th> <th>aika</th> <th>paikka</th> <th>kuulustelija</th>
-                    <div sec:authorize="hasRole('ROLE_ADMIN')"> <th>poista</th> </div>
+                <tr> <th>Kurssi</th> <th>Aika</th> <th>Paikka</th> <th>Kuulustelija</th>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')"> <th>Poista</th> </div>
                 </tr>
             </thead>
             <tbody>
@@ -57,6 +92,42 @@
                     </tr>
                 </table>
             </form>
+        </div>
+
+
+
+
+        <h2>Etsi tulevia kurssikokeita</h2>
+        <p>Hakutoiminto ei toimi!</p>
+        <form th:action="@{/kurssikokeet/haku}" th:method="GET" method="get">
+            <label>Kurssin nimi: </label>
+            <input type="text" name="kurssinNimi" />
+            <label>Mistä (esim 01.01.2015): </label>
+            <input type="text" name="mista" />
+            <label>Mihin )esim 01.02.2015): </label>
+            <input type="text" name="mihin" />
+            <input type="submit" value="Etsi" />
+        </form>
+
+        <div th:if="${hakutulokset}">
+            <h3>Hakutulokset</h3>
+            <table class="taulukko">
+                <thead>
+                    <tr> <th>Kurssi</th> <th>aika</th> <th>paikka</th> <th>kuulustelija</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${hakutulokset.empty}">
+                        <td colspan="4">Ei kurssikokeita annetuilla hakuehdoilla</td>
+                    </tr>
+                    <tr th:each="koe : ${hakutulokset}">
+                        <td> <span th:text="${koe.kurssikoodi}">koodi</span> <span th:text="${koe.kurssinNimi}">nimi</span></td>
+                        <td><span th:text="${#dates.format(koe.aika, 'dd.MM.yyyy HH:mm')}">01.01.1900 00:00</span></td>
+                        <td><span th:text="${koe.paikka}">paikka</span></td>
+                        <td><span th:text="${koe.kuulustelija}">kuulustelija</span> </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <div sec:authorize="hasRole('ROLE_ADMIN')">

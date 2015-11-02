@@ -17,13 +17,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
         .antMatchers("/kurssikokeet").permitAll()
+        .antMatchers("/kurssikokeet/haku").permitAll()
         .antMatchers("/erilliskokeet").permitAll()
+        .antMatchers("/styles.css").permitAll()
+        .antMatchers("/*.css").permitAll()
             .anyRequest().authenticated();
 
         // tarjotaan mahdollisuus kirjautumiseen ja annetaan kaikille
         // pääsy kirjautumissivulle
         http.formLogin().permitAll();
         http.formLogin().permitAll().and().logout().logoutUrl("/logout").logoutSuccessUrl("/kurssikokeet");
+
         
     }
 
