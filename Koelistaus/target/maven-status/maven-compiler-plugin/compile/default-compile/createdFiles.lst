@@ -1,0 +1,11 @@
+wad/SecurityConfiguration$AuthenticationConfiguration.class
+wad/repository/ErilliskoeRepository.class
+wad/RestConfig.class
+wad/SecurityConfiguration.class
+wad/domain/Erilliskoe.class
+wad/Application.class
+wad/controller/ErilliskoeController.class
+wad/repository/KurssikoeRepository.class
+wad/controller/KurssikoeController.class
+wad/profiles/ProdProfile.class
+wad/domain/Kurssikoe.class

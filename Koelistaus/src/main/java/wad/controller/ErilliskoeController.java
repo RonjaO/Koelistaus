@@ -35,6 +35,44 @@ public class ErilliskoeController {
         return "erilliskokeet";
     }
     
+    @RequestMapping(value="/erilliskokeet/haku", method=RequestMethod.GET)
+    public String etsi(Model model,
+            @RequestParam(required=false) String kurssinNimi,
+            @RequestParam(required=false) String mista,
+            @RequestParam(required=false) String mihin) {
+                model.addAttribute("kokeet", erilliskoeRepository.findAll());
+        List<Erilliskoe> hakutulokset = new ArrayList<Erilliskoe>();
+        hakutulokset.addAll(erilliskoeRepository.findByKurssinNimi(kurssinNimi));
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        if (mista == null) { 
+            mista = ""; 
+        } if (mihin == null) {
+             mihin = ""; 
+         } if (mista.equals("") && mihin.equals("")) { 
+             model.addAttribute("hakutulokset", hakutulokset); 
+             return "erilliskokeet"; 
+         } 
+        Date mistaDate = null;
+        Date mihinDate = null;
+        
+        try {
+            mistaDate = sdf.parse(mista);
+            mihinDate = sdf.parse(mihin);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        for (Erilliskoe koe : erilliskoeRepository.findAll()) {
+            if (koe.getAika() == mistaDate || koe.getAika() == mihinDate || (koe.getAika().after(mistaDate) && koe.getAika().before(mihinDate))) {
+                hakutulokset.add(koe);
+            }
+        }
+        
+        model.addAttribute("hakutulokset", hakutulokset);
+        
+        return "erilliskokeet";
+    }    
+
     @Secured("ROLE_ADMIN")
     @RequestMapping(value="/post", method=RequestMethod.POST)
     public String create(@Valid @ModelAttribute Erilliskoe erilliskoe,

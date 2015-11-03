@@ -102,6 +102,39 @@
             </form>
         </div>
 
+        <h2>Etsi tulevia erilliskokeita</h2>
+        <p>Päivämäärillä hakeminen ei valitettavasti toimi.</p>
+        <form th:action="@{/kurssikokeet/haku}" th:method="GET" method="get">
+            <label>Kurssin nimi: </label>
+            <input type="text" name="kurssinNimi" />
+            <label>Mistä (esim 01.01.2015): </label>
+            <input type="text" name="mista" />
+            <label>Mihin )esim 01.02.2015): </label>
+            <input type="text" name="mihin" />
+            <input type="submit" value="Etsi" />
+        </form>
+
+        <div th:if="${hakutulokset}">
+            <h3>Hakutulokset</h3>
+            <table class="taulukko">
+                <thead>
+                    <tr> <th>Kurssi</th> <th>aika</th> <th>paikka</th> <th>kuulustelija</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(hakutulokset)}">
+                        <td colspan="4">Ei erilliskokeita annetuilla hakuehdoilla</td>
+                    </tr>
+                    <tr th:each="koe : ${hakutulokset}">
+                        <td> <span th:text="${koe.kurssikoodi}">koodi</span> <span th:text="${koe.kurssinNimi}">nimi</span></td>
+                        <td><span th:text="${#dates.format(koe.aika, 'dd.MM.yyyy HH:mm')}">01.01.1900 00:00</span></td>
+                        <td><span th:text="${koe.paikka}">paikka</span></td>
+                        <td><span th:text="${koe.kuulustelija}">kuulustelija</span> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div sec:authorize="hasRole('ROLE_ADMIN')">
             <form th:action="@{/logout}"  method="POST"> <input type="submit" name="logout" value="Logout" /> </form>
         </div>

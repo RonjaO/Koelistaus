@@ -44,19 +44,19 @@ public class KurssikoeController {
             @RequestParam(required=false) String kurssinNimi,
             @RequestParam(required=false) String mista,
             @RequestParam(required=false) String mihin) {
+                model.addAttribute("kokeet", kurssikoeRepository.findAll());
         List<Kurssikoe> hakutulokset = new ArrayList<Kurssikoe>();
         hakutulokset.addAll(kurssikoeRepository.findByKurssinNimi(kurssinNimi));
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        
-        if (mista.equals("") && mihin.equals("")) {
-            model.addAttribute(hakutulokset);
-            return "kurssikokeet";
-        } else if (mista == null) {
-            mista = "01.01.20000";
-        } else if (mihin == null) {
-            mihin = "31.12.2025";
-        }
+        if (mista == null) { 
+            mista = ""; 
+        } if (mihin == null) {
+             mihin = ""; 
+         } if (mista.equals("") && mihin.equals("")) { 
+             model.addAttribute("hakutulokset", hakutulokset); 
+             return "kurssikokeet"; 
+         } 
         Date mistaDate = null;
         Date mihinDate = null;
         

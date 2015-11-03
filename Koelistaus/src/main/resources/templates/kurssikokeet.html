@@ -52,8 +52,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:if="${kokeet.empty}">
-                    <td colspan="4">Ei kurssikokeita</td>
+                <tr th:if="${#lists.isEmpty(kokeet)}">
+                    <td colspan="5">Ei kurssikokeita</td>
                 </tr>
                 <tr th:each="koe : ${kokeet}">
                     <td> <span th:text="${koe.kurssikoodi}">koodi</span> <span th:text="${koe.kurssinNimi}">nimi</span></td>
@@ -94,11 +94,8 @@
             </form>
         </div>
 
-
-
-
         <h2>Etsi tulevia kurssikokeita</h2>
-        <p>Hakutoiminto ei toimi!</p>
+        <p>Päivämäärillä hakeminen ei valitettavasti toimi.</p>
         <form th:action="@{/kurssikokeet/haku}" th:method="GET" method="get">
             <label>Kurssin nimi: </label>
             <input type="text" name="kurssinNimi" />
@@ -117,7 +114,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:if="${hakutulokset.empty}">
+                    <tr th:if="${#lists.isEmpty(hakutulokset)}">
                         <td colspan="4">Ei kurssikokeita annetuilla hakuehdoilla</td>
                     </tr>
                     <tr th:each="koe : ${hakutulokset}">
