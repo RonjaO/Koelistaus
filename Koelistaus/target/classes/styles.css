@@ -1,0 +1,30 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #efc;
+  margin-left: 4em;
+  margin-right: 20%;
+}
+
+h1 {
+  border-bottom: thin solid gray;
+}
+
+nav {
+  background-color: #99ffaa;
+}
+
+.sivupalkki {
+  background-color: #ee66ff;
+}
+
+.taulukko td {
+  border: 1px solid #666;
+}
+
+#kurssikokeet .kurssikokeet {
+  font-type: bolded;
+}
+
+#erilliskokeet .erilliskokeet; {
+  font-type: bolded;
+}
